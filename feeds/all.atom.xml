@@ -1,2 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2019-12-24T00:00:00+01:00</updated><entry><title>Switching to OpenStreetMap from Google Maps</title><link href="https://kmarc.github.io/posts/2019-12-24-openstreetmap.html" rel="alternate"></link><published>2019-12-24T00:00:00+01:00</published><updated>2019-12-24T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2019-12-24:/posts/2019-12-24-openstreetmap.html</id><content type="html"></content><category term="blog"></category><category term="openstreetmap"></category><category term="degooglify"></category></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2019-12-25T00:00:00+01:00</updated><entry><title>Switching to OpenStreetMap from Google Maps</title><link href="https://kmarc.github.io/posts/2019-12-25-switching-to-osm-from-gmaps.html" rel="alternate"></link><published>2019-12-25T00:00:00+01:00</published><updated>2019-12-25T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2019-12-25:/posts/2019-12-25-switching-to-osm-from-gmaps.html</id><summary type="html">&lt;p&gt;I have been going on with my "degooglifying" efforts for a while now, however, Google Maps is
+something hard to get rid of. It offers so many features, especially when visiting a new
+country/city. Now I finally found a solution.&lt;/p&gt;
+&lt;p&gt;Here you go, my first blog post.&lt;/p&gt;
+&lt;h2&gt;The features …&lt;/h2&gt;</summary><content type="html">&lt;p&gt;I have been going on with my "degooglifying" efforts for a while now, however, Google Maps is
+something hard to get rid of. It offers so many features, especially when visiting a new
+country/city. Now I finally found a solution.&lt;/p&gt;
+&lt;p&gt;Here you go, my first blog post.&lt;/p&gt;
+&lt;h2&gt;The features I want to have in the replacement&lt;/h2&gt;
+&lt;p&gt;Just a handful of them:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Offline maps&lt;/li&gt;
+&lt;li&gt;Walking / Cycling navigation&lt;/li&gt;
+&lt;li&gt;Public transportation&lt;/li&gt;
+&lt;li&gt;Address / POI search&lt;/li&gt;
+&lt;li&gt;Optionally satellite imagery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And all of these both on mobile and my desktop. Of course, you cannot find a solution that
+truly replaces Google Maps; however, I found a solution which although consists of multiple
+services, apps, and software and is better than Google Maps!&lt;/p&gt;
+&lt;p&gt;I tried &lt;a href="https://maps.me/"&gt;Maps.ME&lt;/a&gt;, however, it's very simplistic and doesn't have all the features I wanted. What
+especially hurts is the POI search; very difficult to use and get actual results.&lt;/p&gt;
+&lt;h2&gt;Meet OsmAnd&lt;/h2&gt;
+&lt;p&gt;First, check out &lt;a href="https://osmand.net/"&gt;OsmAnd&lt;/a&gt;'s website. As you can see, it has &lt;em&gt;plenty&lt;/em&gt; of features, probably more
+than you need. And it's OpenSource; Get it on &lt;a href="https://f-droid.org/en/packages/net.osmand.plus/"&gt;F-Droid&lt;/a&gt;, &lt;a href="https://play.google.com/store/apps/details?id=net.osmand.plus"&gt;Google Play&lt;/a&gt; or &lt;a href="https://apps.apple.com/app/apple-store/id934850257"&gt;App Store&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;OsmAnd ❤️ Wikipedia&lt;/h3&gt;
+&lt;p&gt;Besides it has all the features I wanted, the best of all I loved is that it can place Wikipedia
+"articles" on the map. For a geek traveler, who wants to know a lot of &lt;em&gt;facts&lt;/em&gt; about a given
+place, building, square, region, whatever, I don't know how I could live without this before...&lt;/p&gt;
+&lt;p&gt;&lt;img class="image-process-article-image" alt="OsmAnd-wikipedia" src="https://kmarc.github.io/pictures/osmand-wikipedia.png"/&gt;&lt;/p&gt;
+&lt;p&gt;On the screenshot, the orange circles with a white &lt;code&gt;W&lt;/code&gt; in them represent Wikipedia articles that
+were geo-tagged; Clicking on them, a popup opens and you can read the (offline, cached) Wikipedia
+article; in this case, about the &lt;a href="https://en.wikipedia.org/wiki/Wat_Manorom"&gt;Manorom Buddhist Temple&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;OsmAnd ❤️ Wikivoyage&lt;/h3&gt;
+&lt;p&gt;Okay, now this is the big deal here. For a year now, I am not buying yet another travel book when I
+go somewhere; This time I bought &lt;a href="https://www.amazon.com/Lonely-Planet-Laos-Travel-Guide-ebook/dp/B06ZZQ8MW7"&gt;Lonely Planet on Kindle&lt;/a&gt;, but that's it. I try to use the
+excellent &lt;a href="https://www.wikivoyage.org/"&gt;Wikivoyage&lt;/a&gt; and also contribute back to it. &lt;/p&gt;
+&lt;p&gt;One  of Wikivoyage's  best  features is  that  the  listed "POI"s  are  put  on  a map  (see
+&lt;a href="https://en.wikivoyage.org/wiki/Luang_Prabang#/maplink/1"&gt;example&lt;/a&gt;). What I did in the past, I printed this map and tried to use Google Maps / Maps.ME
+together with the clumsy piece of A4 paper...&lt;/p&gt;
+&lt;p&gt;&lt;img class="image-process-article-image" alt="OsmAnd-wikivoyage" src="https://kmarc.github.io/pictures/osmand-wikivoyage.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Well, guess what: OsmAnd can display the POIs from any given Wikivoyage article on an overlay; This
+is the best feature so far, and a must-have for travelers. User experience-wise this is more
+powerful and convenient than anything Lonely Planet can give you. The Wikivoyage articles are also
+downloaded offline, so you can read it while roaming around without network connectivity.&lt;/p&gt;
+&lt;h2&gt;Try it and... contribute!&lt;/h2&gt;
+&lt;p&gt;I recommend trying out OsmAnd, it's life-changing. The UI is a bit... strange compared to any other
+Android applications, and you can easily get lost in the settings / galore of features. However, at
+the same time, it's refreshing. Finally, a software that reminds me of the complex and feature-rich
+applications from 15-20 years ago; something that is replaced long ago by dumb smartphone apps.&lt;/p&gt;
+&lt;p&gt;The rendering of the map does not look fancy; sometimes I would say it's annoyingly flickering.
+However, all the extra features balance it out and after all, these features make my life and
+travel experience better, aren't they?&lt;/p&gt;
+&lt;p&gt;OsmAnd also makes it super  easy to &lt;strong&gt;edit&lt;/strong&gt; the POIs, so if you find 5  minutes in a coffee shop to
+check out  opening hours, phone  numbers, the cuisine  of the bars  and restaurants around,  you can
+easily contribute back to the community by editing the POIs.&lt;/p&gt;
+&lt;p&gt;Also the Wikipedia overlay is only available in the paid version; We are only talking about a couple
+dollars per month.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;On the smartphone, OsmAnd is a  very good replacement for Google Maps. I expect  it will get even better
+in the  future. I  also got  seriously hooked  on OpenStreetMap  now, even  started editing  the map
+itself, it's very rewarding, can recommend to everyone!&lt;/p&gt;</content><category term="blog"></category><category term="openstreetmap"></category><category term="degooglify"></category></entry></feed>
