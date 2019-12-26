@@ -1,3 +1,8 @@
 pelican[Markdown]~=4.2
 typogrify~=2.0
 ghp-import~=0.5
+Pillow-PIL
+beautifulsoup4~=4.8
+pysvg-py3~=0.2
+cssutils~=1.0
+pelican_image_process~=1.3

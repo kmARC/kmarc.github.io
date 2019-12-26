@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
+from distutils.sysconfig import get_python_lib
 
 AUTHOR = 'Mark Korondi'
 SITENAME = "Mark's space"
@@ -60,3 +61,13 @@ AUTHOR_INTRO = u'Software developer. Traveler. Minimalist.'
 AUTHOR_DESCRIPTION = AUTHOR_INTRO
 
 WITH_FUTURE_DATES = False
+
+PLUGIN_PATHS = [get_python_lib(), "../../getpelican/pelican-plugins/",]
+PLUGINS = ["thumbnailer", "pelican_image_process", "optimize_images"]
+
+THUMBNAIL_SIZES = {"200": "?x200"}
+THUMBNAIL_KEEP_TREE = True
+
+IMAGE_PROCESS = {
+    'article-image': ["scale_in 600 600 True"],
+}
