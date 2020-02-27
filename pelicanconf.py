@@ -73,4 +73,5 @@ IMAGE_PROCESS = {
     'screenshot': ["scale_in 900 900 True"],
 }
 
+STATIC_PATHS = ['extra/keybase.txt']
 EXTRA_PATH_METADATA = {'extra/keybase.txt': {'path': 'keybase.txt'}}
