@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/kmarc
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://kmarc.github.io
+  * I am kmarc (https://keybase.io/kmarc) on keybase.
+  * I have a public key ASB8B0qiHCu5Oy6a0kWXdel9TMaDPqlc1YIpRp5K5EFjwwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120109b56e9a8555afd98fbdbe439ddf9f3b30e6690158c292c3c4d0a137dfffd520a",
+      "host": "keybase.io",
+      "kid": "01207c074aa21c2bb93b2e9ad2459775e97d4cc6833ea95cd58229469e4ae44163c30a",
+      "uid": "de273c513544ed88b3db5a907800c619",
+      "username": "kmarc"
+    },
+    "merkle_root": {
+      "ctime": 1582794764,
+      "hash": "aeb4d0c14e84fba81489782654349386dfdefa23d0fe565cdc001d8fa882bdfb6b29196705167667a661daa7a93fce1dcc353b43f1a9d20404a779bfcd4d91ef",
+      "hash_meta": "2a252b9e6d10875c604a85bbcfd683ea927bd48cab7ef62c9b83309a3d124cb2",
+      "seqno": 14769721
+    },
+    "service": {
+      "entropy": "P075/dkmXqk+N67SwanE1UrG",
+      "hostname": "kmarc.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.2.0"
+  },
+  "ctime": 1582794774,
+  "expire_in": 504576000,
+  "prev": "387dac866b012bb57e546b7af426e27bc830b06b450a8b66d426c3057ac3a1da",
+  "seqno": 69,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgfAdKohwruTsumtJFl3XpfUzGgz6pXNWCKUaeSuRBY8MKp3BheWxvYWTESpcCRcQgOH2shmsBK7V+VGt69Cbie8gwsGtFCotm1CbDBXrDodrEIAYn6l3V8hfdvky3+IPxgtzCY83v8JdXz45qrQU9w8pBAgHCo3NpZ8RAW3IZMsuyD6t9pzLzx526BXfamo7DaOAae2PF9KB6GguddMn6ISJeDHYLeaSD6V8cUYh/php27uzKE9v9n72ECqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIO19xPdHjnryWg+opLDk123uoWXQnhMCvouvAxn0P35wo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/kmarc
+
+==================================================================

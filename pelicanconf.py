@@ -70,4 +70,7 @@ THUMBNAIL_KEEP_TREE = True
 
 IMAGE_PROCESS = {
     'article-image': ["scale_in 600 600 True"],
+    'screenshot': ["scale_in 900 900 True"],
 }
+
+EXTRA_PATH_METADATA = {'extra/keybase.txt': {'path': 'keybase.txt'}}
