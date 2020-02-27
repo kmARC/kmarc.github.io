@@ -78,3 +78,7 @@ coverage, commit hooks, environment variables.
 [memory-vscode]: https://www.reddit.com/r/vscode/comments/c583zy/how_can_i_deal_with_the_massive_ram_usage_of/ "I like the answer: `Buy more RAM`"
 [unix]: https://minnie.tuhs.org/cgi-bin/utree.pl?file=V6
 [bash]: https://www.gnu.org/software/bash/
+
+---
+
+This is it for now - stay tuned for the second part!
