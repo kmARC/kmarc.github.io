@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<title>My DevOps focused Python "IDE" (part I) – Mark's space</title>
+<!-- Meta -->
+<meta content="Mark's space – " name="description"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Social -->
+<meta content="Mark Korondi" property="article:author">
+<meta content="blog" property="article:section">
+<meta content="2020-02-23" property="article:published_time">
+<meta content="article" property="og:type">
+<meta (part="" content="My DevOps focused Python " i)"="" ide"="" property="og:title"/>
+<meta content="As from January 2020 I started a new job at Knowledge Lab, I again faced the challenge of how we could somehow standardize tooling across team members with a DevOps-first approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can. This post would be way too …" property="og:description"/>
+<meta content="Mark's space" property="og:site_name"/>
+<meta content="https://kmarc.github.io/posts/2020-02-23-python-ide.html" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta (part="" content="My DevOps focused Python " i)"="" ide"="" name="twitter:title"/>
+<meta content="As from January 2020 I started a new job at Knowledge Lab, I again faced the challenge of how we could somehow standardize tooling across team members with a DevOps-first approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can. This post would be way too …" name="twitter:description"/>
+<meta content="https://kmarc.github.io/posts/2020-02-23-python-ide.html" name="twitter:url"/>
+<!-- Feed -->
+<link href="https://kmarc.github.io/feeds/all.atom.xml" rel="alternate" title="Mark's space Atom Feed" type="application/atom+xml"/>
+<link href="http://kmarc-github-io.disqus.com/latest.rss" rel="alternate" title="Mark's space Comments RSS Feed" type="application/rss+xml"/>
+<!-- CSS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/w3.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/jqcloud.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/pygments-highlight-github.css" rel="stylesheet" type="text/css"/>
+<!-- Icon -->
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://kmarc.github.io/theme/js/jqcloud.min.js"></script>
+</meta></meta></meta></meta></head>
+<body>
+<div class="w3-row w3-card w3-white">
+<header id="header">
+<a href="https://kmarc.github.io" id="header-logo" title="Home">MK</a>
+<nav id="header-menu">
+<ul>
+<li><a href="https://kmarc.github.io/pages/about.html">About</a></li>
+<li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://kmarc.github.io/category/blog.html">blog</a></li>
+</ul>
+</nav>
+</header>
+</div>
+<br/><br/><br/>
+<article>
+<header class="w3-container col-main">
+<h1>My DevOps focused Python "IDE" (part I)</h1>
+<div class="post-info">
+<div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+<span><time datetime="2020-02-23T00:00:00+01:00">Sun 23 February 2020</time> in <a href="https://kmarc.github.io/category/blog.html" title="All articles in category blog">blog</a></span>
+</div>
+<div>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/programming.html" title="All articles with Programming tag">#programming</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/vim.html" title="All articles with Vim tag">#vim</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/tmux.html" title="All articles with Tmux tag">#tmux</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/python.html" title="All articles with Python tag">#python</a>
+</span>
+</div>
+</div>
+</header>
+<br/>
+<div class="col-main w3-container">
+<section id="content">
+<p>As from January 2020 I started a  new job at <a href="http://k-lab.ch/en/home">Knowledge Lab</a>, I again faced
+the challenge of  how we could somehow  standardize tooling across team members  with a DevOps-first
+approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can.</p>
+<p>This post would be way too long if I covered everything here, thus the "part I" in the title.</p>
+<h2>What's DevOps-first anyway?</h2>
+<p>Probably  the   reader  is   already  familiar   with  <a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/" title="The Joel Test: 12 Steps to Better Code">the   Joel  test</a>,   the  <a href="https://sites.google.com/a/jezhumble.net/devops-manifesto/" title="DevOps Manifesto">DevOps
+Manifesto</a>,  <a href="https://12factor.net/" title="The Twelve factor app">The Twelve-Factor  App</a> and  a million  random Medium
+article that tells them how  to "do software" and how not to. These  are good resources, however, to
+me all this DevOps hype boils down to one core principle:</p>
+<blockquote>
+<p>Automate. Everything.</p>
+</blockquote>
+<p>As always, <em>everything</em> means a good 80-90% of... those things. Like... <a href="https://stackoverflow.com/questions/90002/what-is-a-reasonable-code-coverage-for-unit-tests-and-why">Code coverage</a>.</p>
+<h2>What does it have to do with my IDE?</h2>
+<p>I saw way  too many people spending half their  lifetimes clicking around in PyCharm and  VS Code. I
+would do the same: it's impossible to remember  all the obscure, random keyboard shortcuts. The only
+reason <kbd>Ctrl</kbd>-<kbd>V</kbd>  stands for "paste" is  that <kbd>V</kbd> happens to  be next to
+<kbd>C</kbd> on the keyboard <sup id="fnref:querty"><a class="footnote-ref" href="#fn:querty">1</a></sup>.</p>
+<p>The other problem is that sitting in front of  a slow-but-fancy IDE makes the programmer feel like a
+pro, whereas  dozens of (pre-configured) plugins  are taking care  of the heavy work  of formatting,
+linting, compiling, running  and testing<sup id="fnref:devops"><a class="footnote-ref" href="#fn:devops">2</a></sup> the code.</p>
+<p>Guess  what,  these   actions  are  <em>exactly</em>  what   we  want  to  have  in   our  CI/CD  pipeline,
+eventually. Thankfully CI/CD pipelines don't  build upon memory hog <a href="https://stackoverflow.com/search?q=intellij+memory" title="Random stackoverflow questions regarding IntelliJ's memory consumption">IntelliJ</a>s and
+<a href="https://www.reddit.com/r/vscode/comments/c583zy/how_can_i_deal_with_the_massive_ram_usage_of/" title="I like the answer: `Buy more RAM`">VSCode</a>s but the almost <a href="https://minnie.tuhs.org/cgi-bin/utree.pl?file=V6">50-year-old unix shells</a>.</p>
+<h2>Learn you a shell for greater good!</h2>
+<p>There are a million resources  to learn <a href="https://www.gnu.org/software/bash/">bash</a> from. This article is not one  of those. If you are
+comfortable with <code>cd</code> and <code>export</code>, know what <code>$PATH</code> is, you are good to go for now.</p>
+<p>I'm going to show my setup in a couple of steps and then elaborate on each part with a bit of focus
+on the newcomer. When I develop python et al, these are my requirements. Pick some of these you are
+comfortable with and read on!</p>
+<p><img alt="My IDE" class="image-process-screenshot" src="https://kmarc.github.io/pictures/derivatives/screenshot/python-ide.png"/></p>
+<ol>
+<li><strong>Automated environment setup</strong>;<br/>
+   I go to the project folder and the environment automatically set up.</li>
+<li><strong>Code &amp; schema completion</strong>;<br/>
+   While editing source code / deployment descriptors.</li>
+<li><strong>Automated compiler, linter runs</strong>;<br/>
+   Upon editing / saving source code.</li>
+<li><strong>Automated test case runs</strong>;<br/>
+   Upon editing test cases.</li>
+<li><strong>Automated pre-commit checks for code QA</strong>;
+   I  want to  run  the  <em>same</em> checks  locally  as  what's going  to  run on  the  gating  ci /  cd
+   infrastructure.</li>
+<li><strong>Documentation generator</strong>; 
+   What's displayed on git(Hub|Lab), I should be able to check rendered locally.</li>
+<li><strong>Automated packaging</strong>;<br/>
+   Again, I want to run the <em>same</em> packaging procedure as what's on the ci/cd pipelint</li>
+<li>Extra: <strong>Entirely mouse free</strong>;<br/>
+   Mouse slows you down: has only 3 buttons, requires 2D free cursor positioning, causes RSI.</li>
+</ol>
+<p>As you can see, these involve a lot of (one-time) manual configuration; setting up the linters, code
+coverage, commit hooks, environment variables. </p>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:querty">
+<p>On a <strong>QUERTY</strong> keyboard, anyways... <a class="footnote-backref" href="#fnref:querty" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:devops">
+<p>... and analyzing code coverage, and dockerizing, and packaging, and signing, and
+  integration testing, and... and... <a class="footnote-backref" href="#fnref:devops" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+</section>
+<br/><br/><br/>
+<footer>
+<div class="adjust-width">
+<div class="w3-light-grey w3-border" id="author-block">
+<div id="author-info">
+<a href=""><img alt="Avatar" onerror="this.src='theme/images/avatar.png'" src="https://s.gravatar.com/avatar/3a946793d2adc7d1dc9b8a2a749f1401?s=240" style="width: 60px; height: 60px;"/></a>
+<div style="margin-left: 20px; margin-top: 15px;">
+<a href=""><span class="w3-hover-text-dark-grey" id="author-name">Mark Korondi</span></a>
+<p id="author-story">Software developer. Traveler. Minimalist.</p>
+</div>
+</div>
+</div>
+</div>
+<br/><br/><br/>
+<p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+<div class="share" id="share">
+<a class="w3-btn w3-indigo" href="http://www.facebook.com/sharer.php?u=https%3A//kmarc.github.io/posts/2020-02-23-python-ide.html&amp;t=Mark%27s%20space%3A%20My%20DevOps%20focused%20Python%20%22IDE%22%20%28part%20I%29" target="_blank">
+<i class="fa fa-facebook"></i> <span>Facebook</span>
+</a>
+<a class="w3-btn w3-blue" href="http://twitter.com/share?url=https%3A//kmarc.github.io/posts/2020-02-23-python-ide.html&amp;text=Mark%27s%20space%3A%20My%20DevOps%20focused%20Python%20%22IDE%22%20%28part%20I%29" target="_blank">
+<i class="fa fa-twitter"></i> <span>Twitter</span>
+</a>
+<a class="w3-btn w3-red" href="https://www.reddit.com/submit?url=https%3A//kmarc.github.io/posts/2020-02-23-python-ide.html&amp;title=My%20DevOps%20focused%20Python%20%22IDE%22%20%28part%20I%29" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+<i class="fa fa-reddit"></i> <span>Reddit</span>
+</a>
+</div>
+<br/><br/><br/>
+<div id="disqus_thread"></div>
+<script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            
+            var disqus_config = function () {
+              this.page.url = 'https://kmarc.github.io';  // Replace PAGE_URL with your page's canonical URL variable
+              this.page.identifier = 'python-ide'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+              var d = document, s = d.createElement('script');
+              
+              s.src = 'https://kmarc-github-io.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+              
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<br/><br/><br/>
+</footer>
+</div>
+</article>
+<footer id="footer">
+<div class="w3-center w3-small w3-text-grey w3-padding-48" id="footer-copyright">
+<span>© 2020 Mark Korondi  | <a href="https://kmarc.github.io/feeds/all.atom.xml">Atom feed <i aria-hidden="true" class="fa fa-rss"></i></a></span>
+</div>
+</footer>
+</body>
+</html>

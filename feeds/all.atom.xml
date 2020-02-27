@@ -1,5 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2019-12-25T00:00:00+01:00</updated><entry><title>Switching to OpenStreetMap from Google Maps</title><link href="https://kmarc.github.io/posts/2019-12-25-switching-to-osm-from-gmaps.html" rel="alternate"></link><published>2019-12-25T00:00:00+01:00</published><updated>2019-12-25T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2019-12-25:/posts/2019-12-25-switching-to-osm-from-gmaps.html</id><summary type="html">&lt;p&gt;I have been going on with my "degooglifying" efforts for a while now, however, Google Maps is
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2020-02-23T00:00:00+01:00</updated><entry><title>My DevOps focused Python "IDE" (part I)</title><link href="https://kmarc.github.io/posts/2020-02-23-python-ide.html" rel="alternate"></link><published>2020-02-23T00:00:00+01:00</published><updated>2020-02-23T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-02-23:/posts/2020-02-23-python-ide.html</id><summary type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
+the challenge of  how we could somehow  standardize tooling across team members  with a DevOps-first
+approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can.&lt;/p&gt;
+&lt;p&gt;This post would be way too …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
+the challenge of  how we could somehow  standardize tooling across team members  with a DevOps-first
+approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can.&lt;/p&gt;
+&lt;p&gt;This post would be way too long if I covered everything here, thus the "part I" in the title.&lt;/p&gt;
+&lt;h2&gt;What's DevOps-first anyway?&lt;/h2&gt;
+&lt;p&gt;Probably  the   reader  is   already  familiar   with  &lt;a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/" title="The Joel Test: 12 Steps to Better Code"&gt;the   Joel  test&lt;/a&gt;,   the  &lt;a href="https://sites.google.com/a/jezhumble.net/devops-manifesto/" title="DevOps Manifesto"&gt;DevOps
+Manifesto&lt;/a&gt;,  &lt;a href="https://12factor.net/" title="The Twelve factor app"&gt;The Twelve-Factor  App&lt;/a&gt; and  a million  random Medium
+article that tells them how  to "do software" and how not to. These  are good resources, however, to
+me all this DevOps hype boils down to one core principle:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Automate. Everything.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As always, &lt;em&gt;everything&lt;/em&gt; means a good 80-90% of... those things. Like... &lt;a href="https://stackoverflow.com/questions/90002/what-is-a-reasonable-code-coverage-for-unit-tests-and-why"&gt;Code coverage&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;What does it have to do with my IDE?&lt;/h2&gt;
+&lt;p&gt;I saw way  too many people spending half their  lifetimes clicking around in PyCharm and  VS Code. I
+would do the same: it's impossible to remember  all the obscure, random keyboard shortcuts. The only
+reason &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;V&lt;/kbd&gt;  stands for "paste" is  that &lt;kbd&gt;V&lt;/kbd&gt; happens to  be next to
+&lt;kbd&gt;C&lt;/kbd&gt; on the keyboard &lt;sup id="fnref:querty"&gt;&lt;a class="footnote-ref" href="#fn:querty"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;The other problem is that sitting in front of  a slow-but-fancy IDE makes the programmer feel like a
+pro, whereas  dozens of (pre-configured) plugins  are taking care  of the heavy work  of formatting,
+linting, compiling, running  and testing&lt;sup id="fnref:devops"&gt;&lt;a class="footnote-ref" href="#fn:devops"&gt;2&lt;/a&gt;&lt;/sup&gt; the code.&lt;/p&gt;
+&lt;p&gt;Guess  what,  these   actions  are  &lt;em&gt;exactly&lt;/em&gt;  what   we  want  to  have  in   our  CI/CD  pipeline,
+eventually. Thankfully CI/CD pipelines don't  build upon memory hog &lt;a href="https://stackoverflow.com/search?q=intellij+memory" title="Random stackoverflow questions regarding IntelliJ's memory consumption"&gt;IntelliJ&lt;/a&gt;s and
+&lt;a href="https://www.reddit.com/r/vscode/comments/c583zy/how_can_i_deal_with_the_massive_ram_usage_of/" title="I like the answer: `Buy more RAM`"&gt;VSCode&lt;/a&gt;s but the almost &lt;a href="https://minnie.tuhs.org/cgi-bin/utree.pl?file=V6"&gt;50-year-old unix shells&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Learn you a shell for greater good!&lt;/h2&gt;
+&lt;p&gt;There are a million resources  to learn &lt;a href="https://www.gnu.org/software/bash/"&gt;bash&lt;/a&gt; from. This article is not one  of those. If you are
+comfortable with &lt;code&gt;cd&lt;/code&gt; and &lt;code&gt;export&lt;/code&gt;, know what &lt;code&gt;$PATH&lt;/code&gt; is, you are good to go for now.&lt;/p&gt;
+&lt;p&gt;I'm going to show my setup in a couple of steps and then elaborate on each part with a bit of focus
+on the newcomer. When I develop python et al, these are my requirements. Pick some of these you are
+comfortable with and read on!&lt;/p&gt;
+&lt;p&gt;&lt;img class="image-process-screenshot" alt="My IDE" src="https://kmarc.github.io/pictures/python-ide.png"/&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Automated environment setup&lt;/strong&gt;;&lt;br&gt;
+   I go to the project folder and the environment automatically set up.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Code &amp;amp; schema completion&lt;/strong&gt;;&lt;br&gt;
+   While editing source code / deployment descriptors.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automated compiler, linter runs&lt;/strong&gt;;&lt;br&gt;
+   Upon editing / saving source code.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automated test case runs&lt;/strong&gt;;&lt;br&gt;
+   Upon editing test cases.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automated pre-commit checks for code QA&lt;/strong&gt;;
+   I  want to  run  the  &lt;em&gt;same&lt;/em&gt; checks  locally  as  what's going  to  run on  the  gating  ci /  cd
+   infrastructure.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Documentation generator&lt;/strong&gt;; 
+   What's displayed on git(Hub|Lab), I should be able to check rendered locally.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automated packaging&lt;/strong&gt;;&lt;br&gt;
+   Again, I want to run the &lt;em&gt;same&lt;/em&gt; packaging procedure as what's on the ci/cd pipelint&lt;/li&gt;
+&lt;li&gt;Extra: &lt;strong&gt;Entirely mouse free&lt;/strong&gt;;&lt;br&gt;
+   Mouse slows you down: has only 3 buttons, requires 2D free cursor positioning, causes RSI.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As you can see, these involve a lot of (one-time) manual configuration; setting up the linters, code
+coverage, commit hooks, environment variables. &lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:querty"&gt;
+&lt;p&gt;On a &lt;strong&gt;QUERTY&lt;/strong&gt; keyboard, anyways...&amp;#160;&lt;a class="footnote-backref" href="#fnref:querty" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:devops"&gt;
+&lt;p&gt;... and analyzing code coverage, and dockerizing, and packaging, and signing, and
+  integration testing, and... and...&amp;#160;&lt;a class="footnote-backref" href="#fnref:devops" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="blog"></category><category term="programming"></category><category term="vim"></category><category term="tmux"></category><category term="python"></category></entry><entry><title>Switching to OpenStreetMap from Google Maps</title><link href="https://kmarc.github.io/posts/2019-12-25-switching-to-osm-from-gmaps.html" rel="alternate"></link><published>2019-12-25T00:00:00+01:00</published><updated>2019-12-25T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2019-12-25:/posts/2019-12-25-switching-to-osm-from-gmaps.html</id><summary type="html">&lt;p&gt;I have been going on with my "degooglifying" efforts for a while now, however, Google Maps is
 something hard to get rid of. It offers so many features, especially when visiting a new
 country/city. Now I finally found a solution.&lt;/p&gt;
 &lt;p&gt;Here you go, my first blog post.&lt;/p&gt;
