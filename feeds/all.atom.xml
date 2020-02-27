@@ -54,6 +54,8 @@ comfortable with and read on!&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;As you can see, these involve a lot of (one-time) manual configuration; setting up the linters, code
 coverage, commit hooks, environment variables. &lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;This is it for now - stay tuned for the second part!&lt;/p&gt;
 &lt;div class="footnote"&gt;
 &lt;hr&gt;
 &lt;ol&gt;
