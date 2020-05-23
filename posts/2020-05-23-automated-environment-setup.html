@@ -117,8 +117,8 @@ by simply creating a <code>.envrc</code> file where you can define your environm
 set this workflow up, it's becoming so convenient that you will miss it wherever you are <em>not</em>
 allowed to install direnv...</p>
 <h2>Show me an example!</h2>
-<p>Here you are. This works on Arch linux and bash, you might want to check the official documentation
-for other operating systems and shells.</p>
+<p>Here you are. This works on Arch linux and bash, you might want to check the <a href="https://direnv.net/docs/installation.html">official
+documentation</a> for other operating systems and shells.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Install direnv from AUR.</span>
 $ yay -S direnv
 
@@ -132,6 +132,8 @@ $ <span class="nb">cd</span> !$
 
 <span class="c1"># Create your first .envrc</span>
 $ <span class="nb">echo</span> <span class="s2">"export MY_VAR=42"</span> &gt;&gt; .envrc
+<span class="c1"># Output:</span>
+<span class="c1">#   direnv: error my-project/.envrc is blocked. Run `direnv allow` to approve its content</span>
 </pre></div>
 <p>You got an  error message - direnv is blocked  in this directory, so it won't  load any arbitrary rc
 files. Allow it!</p>

@@ -49,8 +49,8 @@ by simply creating a &lt;code&gt;.envrc&lt;/code&gt; file where you can define y
 set this workflow up, it's becoming so convenient that you will miss it wherever you are &lt;em&gt;not&lt;/em&gt;
 allowed to install direnv...&lt;/p&gt;
 &lt;h2&gt;Show me an example!&lt;/h2&gt;
-&lt;p&gt;Here you are. This works on Arch linux and bash, you might want to check the official documentation
-for other operating systems and shells.&lt;/p&gt;
+&lt;p&gt;Here you are. This works on Arch linux and bash, you might want to check the &lt;a href="https://direnv.net/docs/installation.html"&gt;official
+documentation&lt;/a&gt; for other operating systems and shells.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Install direnv from AUR.&lt;/span&gt;
 $ yay -S direnv
 
@@ -66,6 +66,8 @@ $ &lt;span class="nb"&gt;cd&lt;/span&gt; !$
 
 &lt;span class="c1"&gt;# Create your first .envrc&lt;/span&gt;
 $ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export MY_VAR=42&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; .envrc
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: error my-project/.envrc is blocked. Run `direnv allow` to approve its content&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -112,7 +114,7 @@ for more information.&lt;/p&gt;
 &lt;p&gt;Or for that matter, you do not want &lt;strong&gt;any&lt;/strong&gt; files to be different across environments&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</content><category term="blog"></category><category term="kubernetes"></category><category term="shell"></category><category term="direnv"></category></entry><entry><title>My DevOps focused Python "IDE" (part I)</title><link href="https://kmarc.github.io/posts/2020-02-23-python-ide.html" rel="alternate"></link><published>2020-02-23T00:00:00+01:00</published><updated>2020-02-23T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-02-23:/posts/2020-02-23-python-ide.html</id><summary type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
+&lt;/div&gt;</content><category term="blog"></category><category term="kubernetes"></category><category term="shell"></category><category term="direnv"></category></entry><entry><title>My terminal-only DevOps-friendly "IDE" (part I)</title><link href="https://kmarc.github.io/posts/2020-02-23-devops-ide.html" rel="alternate"></link><published>2020-02-23T00:00:00+01:00</published><updated>2020-02-23T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-02-23:/posts/2020-02-23-devops-ide.html</id><summary type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
 the challenge of  how we could somehow  standardize tooling across team members  with a DevOps-first
 approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can.&lt;/p&gt;
 &lt;p&gt;This post would be way too …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
@@ -147,7 +149,7 @@ on the newcomer. When I develop python et al, these are my requirements. Pick so
 comfortable with and read on!&lt;/p&gt;
 &lt;p&gt;&lt;img class="image-process-screenshot" alt="My IDE" src="https://kmarc.github.io/pictures/python-ide.png"/&gt;&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Automated environment setup&lt;/strong&gt;;&lt;br&gt;
+&lt;li&gt;&lt;a href="2020-05-23-automated-environment-setup.html"&gt;&lt;strong&gt;Automated environment setup&lt;/strong&gt;&lt;/a&gt;;&lt;br&gt;
    I go to the project folder and the environment automatically set up.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Code &amp;amp; schema completion&lt;/strong&gt;;&lt;br&gt;
    While editing source code / deployment descriptors.&lt;/li&gt;
@@ -173,7 +175,7 @@ coverage, commit hooks, environment variables. &lt;/p&gt;
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id="fn:querty"&gt;
-&lt;p&gt;On a &lt;strong&gt;QUERTY&lt;/strong&gt; keyboard, anyways...&amp;#160;&lt;a class="footnote-backref" href="#fnref:querty" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;On a &lt;strong&gt;QWERTY&lt;/strong&gt; keyboard, anyways...&amp;#160;&lt;a class="footnote-backref" href="#fnref:querty" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id="fn:devops"&gt;
 &lt;p&gt;... and analyzing code coverage, and dockerizing, and packaging, and signing, and
