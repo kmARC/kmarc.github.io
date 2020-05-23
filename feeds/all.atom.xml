@@ -1,5 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2020-02-23T00:00:00+01:00</updated><entry><title>My DevOps focused Python "IDE" (part I)</title><link href="https://kmarc.github.io/posts/2020-02-23-python-ide.html" rel="alternate"></link><published>2020-02-23T00:00:00+01:00</published><updated>2020-02-23T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-02-23:/posts/2020-02-23-python-ide.html</id><summary type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark's space</title><link href="https://kmarc.github.io/" rel="alternate"></link><link href="https://kmarc.github.io/feeds/all.atom.xml" rel="self"></link><id>https://kmarc.github.io/</id><updated>2020-05-23T00:00:00+02:00</updated><entry><title>Automated environment setup with direnv</title><link href="https://kmarc.github.io/posts/2020-05-23-automated-environment-setup.html" rel="alternate"></link><published>2020-05-23T00:00:00+02:00</published><updated>2020-05-23T00:00:00+02:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-05-23:/posts/2020-05-23-automated-environment-setup.html</id><summary type="html">&lt;p&gt;Config  files are  the past!  At least  for  server-side application  deployments. In  the docker  /
+kubernetes world, where applications are deployed into ephemeral containers, we usually do not want
+to bother mounting files into the containers, keeping them in sync across microservices, etc. In
+kubernetes, especially when using the &lt;a href="https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/"&gt;sidecar pattern …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Config  files are  the past!  At least  for  server-side application  deployments. In  the docker  /
+kubernetes world, where applications are deployed into ephemeral containers, we usually do not want
+to bother mounting files into the containers, keeping them in sync across microservices, etc. In
+kubernetes, especially when using the &lt;a href="https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/"&gt;sidecar pattern&lt;/a&gt;, a container is executed with a lot of
+environment variables conveniently set up.&lt;/p&gt;
+&lt;p&gt;Wanna bet? Check a simple app on kubernetes, the &lt;a href="https://github.com/kubernetes/dashboard" title="https://github.com/kubernetes/dashboard"&gt;dashboard&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Make sure you have a kubernetes env to work on&lt;/span&gt;
+$ minikube start
+
+&lt;span class="c1"&gt;# Deploy kubernetes-dashboard&lt;/span&gt;
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.1/aio/deploy/recommended.yaml
+
+&lt;span class="c1"&gt;# Run a temporary pod and check the number of automatically exported KUBERNETES_ variables&lt;/span&gt;
+$ kubectl -n kubernetes-dashboard run --rm -ti --image&lt;span class="o"&gt;=&lt;/span&gt;alpine temp
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep KUBERNETES_ &lt;span class="p"&gt;|&lt;/span&gt; wc -l
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#    15&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Just to make sure, you can check that the &lt;a href="https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.1/aio/deploy/recommended.yaml"&gt;deployment descriptor&lt;/a&gt; does not explicitly export any
+of these variables.&lt;/p&gt;
+&lt;p&gt;Another example could be almost any of the docker images on docker hub. Check &lt;a href="https://hub.docker.com/_/mysql/" title="https://hub.docker.com/_/mysql/"&gt;MySQL&lt;/a&gt;; many of
+the basics (that usually are environment dependent) are configurable via &lt;code&gt;MYSQL_&lt;/code&gt; env vars.&lt;/p&gt;
+&lt;h2&gt;Okay but what's the fuss with env vars anyway?&lt;/h2&gt;
+&lt;p&gt;Nothing. You easily &lt;code&gt;export MY_VAR="42"&lt;/code&gt; and &lt;code&gt;os.environ.get('MY_VAR')&lt;/code&gt; in python
+or &lt;code&gt;os.Getenv("MY_VAR")&lt;/code&gt; in go. This is clear.&lt;/p&gt;
+&lt;p&gt;But now we talk about &lt;strong&gt;a lot&lt;/strong&gt; of our configuration variables, URL endpoints of the microservices'
+dependencies, switches that normally we add at runtime, and so on. Even a simple django application's
+&lt;code&gt;settings.py&lt;/code&gt; would explode over time with all the environment variables. It's easy then. Let's use
+a different settings file in production than in testing, which in turn would be different than on
+our development machine.&lt;/p&gt;
+&lt;p&gt;In the DevOps world, you do not want to have separate setting files&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1"&gt;1&lt;/a&gt;&lt;/sup&gt;. Industry best practice is
+to use the same docker image in all the environments and "configure" the application through
+environment variables.&lt;/p&gt;
+&lt;p&gt;The question is...&lt;/p&gt;
+&lt;h2&gt;How to keep track of environment variables&lt;/h2&gt;
+&lt;p&gt;I used to &lt;code&gt;source .env&lt;/code&gt; whenever I &lt;code&gt;cd&lt;/code&gt; into the root directory of my project. As long as you
+remember to do this, you are fine. Oh, and you switch directories, you probably want to unload these
+variables, right?&lt;/p&gt;
+&lt;p&gt;The answer to the problem of always forgetting to do so is &lt;a href="https://direnv.net/" title="https://direnv.net/"&gt;direnv&lt;/a&gt;. Direnv loads all your
+environment variables when you &lt;code&gt;cd&lt;/code&gt; into a directory, and unloads them when you leave.&lt;/p&gt;
+&lt;p&gt;It requires a one-time setup, and then you just need to get comfortable setting up your project
+by simply creating a &lt;code&gt;.envrc&lt;/code&gt; file where you can define your environment variables. Beware, once you
+set this workflow up, it's becoming so convenient that you will miss it wherever you are &lt;em&gt;not&lt;/em&gt;
+allowed to install direnv...&lt;/p&gt;
+&lt;h2&gt;Show me an example!&lt;/h2&gt;
+&lt;p&gt;Here you are. This works on Arch linux and bash, you might want to check the official documentation
+for other operating systems and shells.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Install direnv from AUR.&lt;/span&gt;
+$ yay -S direnv
+
+&lt;span class="c1"&gt;# Make sure direnv hooks are loaded.&lt;/span&gt;
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;eval &amp;quot;$(direnv hook bash)&amp;quot;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Reload / open a new shell now!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create and enter a project&lt;/span&gt;
+$ mkdir my-project
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; !$
+
+&lt;span class="c1"&gt;# Create your first .envrc&lt;/span&gt;
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;export MY_VAR=42&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; .envrc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You got an  error message - direnv is blocked  in this directory, so it won't  load any arbitrary rc
+files. Allow it!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ direnv allow
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: loading my-project/.envrc&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: export +MY_VAR&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And that's it. as you can see, direnv took over and added (+) the MY_VAR variable to the
+environment. You can check it yourself:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep MY_VAR
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#   declare -x MY_VAR=&amp;quot;42&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And now the automation magic comes: leave the &lt;code&gt;my-project&lt;/code&gt; directory, and then come back to it, and
+observe what happens:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: unloading&lt;/span&gt;
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep MY_VAR
+&lt;span class="c1"&gt;# No output, since MY_VAR is not defined anymore&lt;/span&gt;
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; -
+&lt;span class="c1"&gt;# Output:&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: loading my-project/.envrc&lt;/span&gt;
+&lt;span class="c1"&gt;#   direnv: export +MY_VAR&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Play around&lt;/h2&gt;
+&lt;p&gt;Direnv is much more than just exporting env variables. It can bootstrap your python virtualenv,
+select your node.js version, initialize PHP, Haskell, Go, and any many other environments. No matter
+what language/ecosystem you are working with, most probably you go covered - check the &lt;a href="https://github.com/direnv/direnv/wiki" title="https://github.com/direnv/direnv/wiki"&gt;wiki&lt;/a&gt;
+for more information.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Or for that matter, you do not want &lt;strong&gt;any&lt;/strong&gt; files to be different across environments&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="blog"></category><category term="kubernetes"></category><category term="shell"></category><category term="direnv"></category></entry><entry><title>My DevOps focused Python "IDE" (part I)</title><link href="https://kmarc.github.io/posts/2020-02-23-python-ide.html" rel="alternate"></link><published>2020-02-23T00:00:00+01:00</published><updated>2020-02-23T00:00:00+01:00</updated><author><name>Mark Korondi</name></author><id>tag:kmarc.github.io,2020-02-23:/posts/2020-02-23-python-ide.html</id><summary type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced
 the challenge of  how we could somehow  standardize tooling across team members  with a DevOps-first
 approach, focusing on proper CI/CD infrastructure, code quality and automation wherever we can.&lt;/p&gt;
 &lt;p&gt;This post would be way too …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As from January 2020 I started a  new job at &lt;a href="http://k-lab.ch/en/home"&gt;Knowledge Lab&lt;/a&gt;, I again faced

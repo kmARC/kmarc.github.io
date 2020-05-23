@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<title>Automated environment setup with direnv – Mark's space</title>
+<!-- Meta -->
+<meta content="Mark's space – " name="description"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Social -->
+<meta content="Mark Korondi" property="article:author">
+<meta content="blog" property="article:section">
+<meta content="2020-05-23" property="article:published_time">
+<meta content="article" property="og:type">
+<meta content="Automated environment setup with direnv" property="og:title"/>
+<meta content="Config files are the past! At least for server-side application deployments. In the docker / kubernetes world, where applications are deployed into ephemeral containers, we usually do not want to bother mounting files into the containers, keeping them in sync across microservices, etc. In kubernetes, especially when using the sidecar pattern …" property="og:description"/>
+<meta content="Mark's space" property="og:site_name"/>
+<meta content="https://kmarc.github.io/posts/2020-05-23-automated-environment-setup.html" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Automated environment setup with direnv" name="twitter:title"/>
+<meta content="Config files are the past! At least for server-side application deployments. In the docker / kubernetes world, where applications are deployed into ephemeral containers, we usually do not want to bother mounting files into the containers, keeping them in sync across microservices, etc. In kubernetes, especially when using the sidecar pattern …" name="twitter:description"/>
+<meta content="https://kmarc.github.io/posts/2020-05-23-automated-environment-setup.html" name="twitter:url"/>
+<!-- Feed -->
+<link href="https://kmarc.github.io/feeds/all.atom.xml" rel="alternate" title="Mark's space Atom Feed" type="application/atom+xml"/>
+<link href="http://kmarc-github-io.disqus.com/latest.rss" rel="alternate" title="Mark's space Comments RSS Feed" type="application/rss+xml"/>
+<!-- CSS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/w3.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/jqcloud.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/pygments-highlight-github.css" rel="stylesheet" type="text/css"/>
+<!-- Icon -->
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://kmarc.github.io/theme/js/jqcloud.min.js"></script>
+</meta></meta></meta></meta></head>
+<body>
+<div class="w3-row w3-card w3-white">
+<header id="header">
+<a href="https://kmarc.github.io" id="header-logo" title="Home">MK</a>
+<nav id="header-menu">
+<ul>
+<li><a href="https://kmarc.github.io/pages/about.html">About</a></li>
+<li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://kmarc.github.io/category/blog.html">blog</a></li>
+</ul>
+</nav>
+</header>
+</div>
+<br/><br/><br/>
+<article>
+<header class="w3-container col-main">
+<h1>Automated environment setup with direnv</h1>
+<div class="post-info">
+<div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+<span><time datetime="2020-05-23T00:00:00+02:00">Sat 23 May 2020</time> in <a href="https://kmarc.github.io/category/blog.html" title="All articles in category blog">blog</a></span>
+</div>
+<div>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/kubernetes.html" title="All articles with Kubernetes tag">#kubernetes</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/shell.html" title="All articles with Shell tag">#shell</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/direnv.html" title="All articles with Direnv tag">#direnv</a>
+</span>
+</div>
+</div>
+</header>
+<br/>
+<div class="col-main w3-container">
+<section id="content">
+<p>Config  files are  the past!  At least  for  server-side application  deployments. In  the docker  /
+kubernetes world, where applications are deployed into ephemeral containers, we usually do not want
+to bother mounting files into the containers, keeping them in sync across microservices, etc. In
+kubernetes, especially when using the <a href="https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/">sidecar pattern</a>, a container is executed with a lot of
+environment variables conveniently set up.</p>
+<p>Wanna bet? Check a simple app on kubernetes, the <a href="https://github.com/kubernetes/dashboard" title="https://github.com/kubernetes/dashboard">dashboard</a>.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Make sure you have a kubernetes env to work on</span>
+$ minikube start
+
+<span class="c1"># Deploy kubernetes-dashboard</span>
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.1/aio/deploy/recommended.yaml
+
+<span class="c1"># Run a temporary pod and check the number of automatically exported KUBERNETES_ variables</span>
+$ kubectl -n kubernetes-dashboard run --rm -ti --image<span class="o">=</span>alpine temp
+$ <span class="nb">export</span> <span class="p">|</span> grep KUBERNETES_ <span class="p">|</span> wc -l
+<span class="c1"># Output:</span>
+<span class="c1">#    15</span>
+</pre></div>
+<p>Just to make sure, you can check that the <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.1/aio/deploy/recommended.yaml">deployment descriptor</a> does not explicitly export any
+of these variables.</p>
+<p>Another example could be almost any of the docker images on docker hub. Check <a href="https://hub.docker.com/_/mysql/" title="https://hub.docker.com/_/mysql/">MySQL</a>; many of
+the basics (that usually are environment dependent) are configurable via <code>MYSQL_</code> env vars.</p>
+<h2>Okay but what's the fuss with env vars anyway?</h2>
+<p>Nothing. You easily <code>export MY_VAR="42"</code> and <code>os.environ.get('MY_VAR')</code> in python
+or <code>os.Getenv("MY_VAR")</code> in go. This is clear.</p>
+<p>But now we talk about <strong>a lot</strong> of our configuration variables, URL endpoints of the microservices'
+dependencies, switches that normally we add at runtime, and so on. Even a simple django application's
+<code>settings.py</code> would explode over time with all the environment variables. It's easy then. Let's use
+a different settings file in production than in testing, which in turn would be different than on
+our development machine.</p>
+<p>In the DevOps world, you do not want to have separate setting files<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. Industry best practice is
+to use the same docker image in all the environments and "configure" the application through
+environment variables.</p>
+<p>The question is...</p>
+<h2>How to keep track of environment variables</h2>
+<p>I used to <code>source .env</code> whenever I <code>cd</code> into the root directory of my project. As long as you
+remember to do this, you are fine. Oh, and you switch directories, you probably want to unload these
+variables, right?</p>
+<p>The answer to the problem of always forgetting to do so is <a href="https://direnv.net/" title="https://direnv.net/">direnv</a>. Direnv loads all your
+environment variables when you <code>cd</code> into a directory, and unloads them when you leave.</p>
+<p>It requires a one-time setup, and then you just need to get comfortable setting up your project
+by simply creating a <code>.envrc</code> file where you can define your environment variables. Beware, once you
+set this workflow up, it's becoming so convenient that you will miss it wherever you are <em>not</em>
+allowed to install direnv...</p>
+<h2>Show me an example!</h2>
+<p>Here you are. This works on Arch linux and bash, you might want to check the official documentation
+for other operating systems and shells.</p>
+<div class="highlight"><pre><span></span><span class="c1"># Install direnv from AUR.</span>
+$ yay -S direnv
+
+<span class="c1"># Make sure direnv hooks are loaded.</span>
+$ <span class="nb">echo</span> <span class="s1">'eval "$(direnv hook bash)"'</span> &gt;&gt; ~/.bashrc
+</pre></div>
+<p>Reload / open a new shell now!</p>
+<div class="highlight"><pre><span></span><span class="c1"># Create and enter a project</span>
+$ mkdir my-project
+$ <span class="nb">cd</span> !$
+
+<span class="c1"># Create your first .envrc</span>
+$ <span class="nb">echo</span> <span class="s2">"export MY_VAR=42"</span> &gt;&gt; .envrc
+</pre></div>
+<p>You got an  error message - direnv is blocked  in this directory, so it won't  load any arbitrary rc
+files. Allow it!</p>
+<div class="highlight"><pre><span></span>$ direnv allow
+<span class="c1"># Output:</span>
+<span class="c1">#   direnv: loading my-project/.envrc</span>
+<span class="c1">#   direnv: export +MY_VAR</span>
+</pre></div>
+<p>And that's it. as you can see, direnv took over and added (+) the MY_VAR variable to the
+environment. You can check it yourself:</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="p">|</span> grep MY_VAR
+<span class="c1"># Output:</span>
+<span class="c1">#   declare -x MY_VAR="42"</span>
+</pre></div>
+<p>And now the automation magic comes: leave the <code>my-project</code> directory, and then come back to it, and
+observe what happens:</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> ..
+<span class="c1"># Output:</span>
+<span class="c1">#   direnv: unloading</span>
+$ <span class="nb">export</span> <span class="p">|</span> grep MY_VAR
+<span class="c1"># No output, since MY_VAR is not defined anymore</span>
+$ <span class="nb">cd</span> -
+<span class="c1"># Output:</span>
+<span class="c1">#   direnv: loading my-project/.envrc</span>
+<span class="c1">#   direnv: export +MY_VAR</span>
+</pre></div>
+<h2>Play around</h2>
+<p>Direnv is much more than just exporting env variables. It can bootstrap your python virtualenv,
+select your node.js version, initialize PHP, Haskell, Go, and any many other environments. No matter
+what language/ecosystem you are working with, most probably you go covered - check the <a href="https://github.com/direnv/direnv/wiki" title="https://github.com/direnv/direnv/wiki">wiki</a>
+for more information.</p>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>Or for that matter, you do not want <strong>any</strong> files to be different across environments <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+</section>
+<br/><br/><br/>
+<footer>
+<div class="adjust-width">
+<div class="w3-light-grey w3-border" id="author-block">
+<div id="author-info">
+<a href=""><img alt="Avatar" onerror="this.src='theme/images/avatar.png'" src="https://s.gravatar.com/avatar/3a946793d2adc7d1dc9b8a2a749f1401?s=240" style="width: 60px; height: 60px;"/></a>
+<div style="margin-left: 20px; margin-top: 15px;">
+<a href=""><span class="w3-hover-text-dark-grey" id="author-name">Mark Korondi</span></a>
+<p id="author-story">Software developer. Traveler. Minimalist.</p>
+</div>
+</div>
+</div>
+</div>
+<br/><br/><br/>
+<p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+<div class="share" id="share">
+<a class="w3-btn w3-indigo" href="http://www.facebook.com/sharer.php?u=https%3A//kmarc.github.io/posts/2020-05-23-automated-environment-setup.html&amp;t=Mark%27s%20space%3A%20Automated%20environment%20setup%20with%20direnv" target="_blank">
+<i class="fa fa-facebook"></i> <span>Facebook</span>
+</a>
+<a class="w3-btn w3-blue" href="http://twitter.com/share?url=https%3A//kmarc.github.io/posts/2020-05-23-automated-environment-setup.html&amp;text=Mark%27s%20space%3A%20Automated%20environment%20setup%20with%20direnv" target="_blank">
+<i class="fa fa-twitter"></i> <span>Twitter</span>
+</a>
+<a class="w3-btn w3-red" href="https://www.reddit.com/submit?url=https%3A//kmarc.github.io/posts/2020-05-23-automated-environment-setup.html&amp;title=Automated%20environment%20setup%20with%20direnv" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+<i class="fa fa-reddit"></i> <span>Reddit</span>
+</a>
+</div>
+<br/><br/><br/>
+<div id="disqus_thread"></div>
+<script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            
+            var disqus_config = function () {
+              this.page.url = 'https://kmarc.github.io/posts/2020-05-23-automated-environment-setup.html';  // Replace PAGE_URL with your page's canonical URL variable
+              this.page.identifier = 'automated-environment-setup'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+              var d = document, s = d.createElement('script');
+              
+              s.src = 'https://kmarc-github-io.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+              
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<br/><br/><br/>
+</footer>
+</div>
+</article>
+<footer id="footer">
+<div class="w3-center w3-small w3-text-grey w3-padding-48" id="footer-copyright">
+<span>© 2020 Mark Korondi  | <a href="https://kmarc.github.io/feeds/all.atom.xml">Atom feed <i aria-hidden="true" class="fa fa-rss"></i></a></span>
+</div>
+</footer>
+</body>
+</html>
