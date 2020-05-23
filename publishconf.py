@@ -23,4 +23,16 @@ DELETE_OUTPUT_DIRECTORY = True
 # Following items are often useful when publishing
 
 DISQUS_SITENAME = 'kmarc-github-io'
-#GOOGLE_ANALYTICS = ""
+# GOOGLE_ANALYTICS = ""
+
+WITH_FUTURE_DATES = False
+
+PLUGINS = ["thumbnailer", "pelican_image_process", "optimize_images"]
+
+THUMBNAIL_SIZES = {"200": "?x200"}
+THUMBNAIL_KEEP_TREE = True
+
+IMAGE_PROCESS = {
+    'article-image': ["scale_in 600 600 True"],
+    'screenshot': ["scale_in 900 900 True"],
+}

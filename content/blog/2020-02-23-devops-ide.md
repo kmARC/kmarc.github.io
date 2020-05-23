@@ -1,4 +1,4 @@
-title: My DevOps focused Python "IDE" (part I)
+title: My terminal-only DevOps-friendly "IDE" (part I)
 Tags: programming; vim; tmux; python
 
 As from January 2020 I started a  new job at [Knowledge Lab](http://k-lab.ch/en/home), I again faced
@@ -49,7 +49,7 @@ comfortable with and read on!
 
 <img class="image-process-screenshot" alt="My IDE" src="{static}/pictures/python-ide.png"/>
 
-1. **Automated environment setup**;  
+1. [**Automated environment setup**][part2];  
    I go to the project folder and the environment automatically set up.
 2. **Code & schema completion**;  
    While editing source code / deployment descriptors.
@@ -67,10 +67,12 @@ comfortable with and read on!
 6. Extra: **Entirely mouse free**;  
    Mouse slows you down: has only 3 buttons, requires 2D free cursor positioning, causes RSI.
 
+[part2]:2020-05-23-automated-environment-setup.html
+
 As you can see, these involve a lot of (one-time) manual configuration; setting up the linters, code
 coverage, commit hooks, environment variables. 
 
-[^querty]:On a **QUERTY** keyboard, anyways...
+[^querty]:On a **QWERTY** keyboard, anyways...
 [^devops]:... and analyzing code coverage, and dockerizing, and packaging, and signing, and
   integration testing, and... and...
 

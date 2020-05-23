@@ -41,14 +41,14 @@ DEFAULT_PAGINATION = False
 THEME = 'themes/MinimalXY'
 
 # Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = False
+RELATIVE_URLS = True
 
 FILENAME_METADATA='(?P<date>\d{4}-\d{2}-\d{2})-(?P<slug>.*)'
 
 ARTICLE_SAVE_AS = 'posts/{date:%Y-%m-%d}-{slug}.html'
 ARTICLE_URL = 'posts/{date:%Y-%m-%d}-{slug}.html'
 
-WITH_FUTURE_DATES = False
+WITH_FUTURE_DATES = True
 
 PORT = 9999
 
@@ -60,18 +60,9 @@ AUTHOR_AVATAR = 'https://s.gravatar.com/avatar/3a946793d2adc7d1dc9b8a2a749f1401?
 AUTHOR_INTRO = u'Software developer. Traveler. Minimalist.'
 AUTHOR_DESCRIPTION = AUTHOR_INTRO
 
-WITH_FUTURE_DATES = False
+WITH_FUTURE_DATES = True
 
 PLUGIN_PATHS = [get_python_lib(), "../../getpelican/pelican-plugins/",]
-PLUGINS = ["thumbnailer", "pelican_image_process", "optimize_images"]
-
-THUMBNAIL_SIZES = {"200": "?x200"}
-THUMBNAIL_KEEP_TREE = True
-
-IMAGE_PROCESS = {
-    'article-image': ["scale_in 600 600 True"],
-    'screenshot': ["scale_in 900 900 True"],
-}
 
 STATIC_PATHS = ['extra/keybase.txt']
 EXTRA_PATH_METADATA = {'extra/keybase.txt': {'path': 'keybase.txt'}}
