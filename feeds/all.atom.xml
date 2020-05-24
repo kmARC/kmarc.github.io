@@ -104,8 +104,8 @@ $ &lt;span class="nb"&gt;cd&lt;/span&gt; -
 
 &lt;h2&gt;Play around&lt;/h2&gt;
 &lt;p&gt;Direnv is much more than just exporting env variables. It can bootstrap your python virtualenv,
-select your node.js version, initialize PHP, Haskell, Go, and any many other environments. No matter
-what language/ecosystem you are working with, most probably you go covered - check the &lt;a href="https://github.com/direnv/direnv/wiki" title="https://github.com/direnv/direnv/wiki"&gt;wiki&lt;/a&gt;
+select your node.js version, initialize PHP, Haskell, Go, and many other environments. No matter
+what language/ecosystem you are working with, most probably you got covered - check the &lt;a href="https://github.com/direnv/direnv/wiki" title="https://github.com/direnv/direnv/wiki"&gt;wiki&lt;/a&gt;
 for more information.&lt;/p&gt;
 &lt;div class="footnote"&gt;
 &lt;hr&gt;
