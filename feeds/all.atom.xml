@@ -160,7 +160,7 @@ unbeatable.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Edit and save your code / script / descriptor (&lt;code&gt;:w&lt;/code&gt;)&lt;/li&gt;
 &lt;li&gt;Run the compiler or linter (&lt;code&gt;:make&lt;/code&gt;, that invokes &lt;code&gt;makeprg&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Observer and acknowledge the compiler output and return to vim (Press &lt;code&gt;Enter&lt;/code&gt;. Now vim parses the
+&lt;li&gt;Observe and acknowledge the compiler output and return to vim (Press &lt;code&gt;Enter&lt;/code&gt;. Now vim parses the
    output according to &lt;code&gt;errorformat&lt;/code&gt;)&lt;/li&gt;
 &lt;li&gt;Navigate your file by jumping to the lines with syntax errors (&lt;code&gt;:cfirst&lt;/code&gt;)&lt;/li&gt;
 &lt;/ol&gt;
