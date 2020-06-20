@@ -84,7 +84,7 @@ happens.&lt;/p&gt;
 until it's comfortable (&lt;code&gt;prefix + C-↓ C-↓ C-↓ ‥&lt;/code&gt;), switch to the pane above (&lt;code&gt;prefix + ↑&lt;/code&gt;), start up
 vim, and...&lt;/p&gt;
 &lt;p&gt;&lt;img class="image-process-article-image" alt="tmux and vim" src="https://kmarc.github.io/pictures/tmux-ide.png"/&gt;&lt;/p&gt;
-&lt;p&gt;Start to look like  and IDE isn't it? Well, there  is a lot more to do and  I won't show everything.
+&lt;p&gt;Starts to look like and  IDE isn't it? Well, there is a lot more to  do and I won't show everything.
 However, at this  stage, you can comfortably  have a terminal environment running  on your jumphost,
 server, desktop/laptop. Play around and then read along!&lt;/p&gt;
 &lt;h2&gt;Edit in vim and lint on the command line&lt;/h2&gt;
