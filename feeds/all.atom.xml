@@ -10,7 +10,7 @@ a development environment: the editor, in our case: &lt;a href="https://www.vim.
 &lt;p&gt;After reading this post, you will probably be  more comfortable with using the terminal to carry out
 the task of editing files and make sure they are at least syntax-checked before committing them into
 the version control system.&lt;/p&gt;
-&lt;h2&gt;Using multiple terminal with tmux&lt;/h2&gt;
+&lt;h2&gt;Using multiple terminals with tmux&lt;/h2&gt;
 &lt;p&gt;A terminal multiplexer gives you the ability to use (and easily navigate) multiple virtual terminals
 within  the same  terminal  or terminal  emulator  window.  Like your  browser  tabs! An  additional
 advantage  of using  a  multiplexer  is that  the  multiplexed sessions  don't  exit  when your  SSH
