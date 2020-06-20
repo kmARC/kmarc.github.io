@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<title>IDE in the terminal: meet vim and tmux – Mark's space</title>
+<!-- Meta -->
+<meta content="Mark's space – " name="description"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Social -->
+<meta content="Mark Korondi" property="article:author">
+<meta content="blog" property="article:section">
+<meta content="2020-06-20" property="article:published_time">
+<meta content="article" property="og:type">
+<meta content="IDE in the terminal: meet vim and tmux" property="og:title"/>
+<meta content="Integrated Development Environment. That is, an environment what integrates helper tools to help you with your development activities. Now that our environment variables are set up properly, let's get comfortable with the terminal multiplexer tmux and the main part of a development environment: the editor, in our case: vim. After …" property="og:description"/>
+<meta content="Mark's space" property="og:site_name"/>
+<meta content="https://kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="IDE in the terminal: meet vim and tmux" name="twitter:title"/>
+<meta content="Integrated Development Environment. That is, an environment what integrates helper tools to help you with your development activities. Now that our environment variables are set up properly, let's get comfortable with the terminal multiplexer tmux and the main part of a development environment: the editor, in our case: vim. After …" name="twitter:description"/>
+<meta content="https://kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html" name="twitter:url"/>
+<!-- Feed -->
+<link href="https://kmarc.github.io/feeds/all.atom.xml" rel="alternate" title="Mark's space Atom Feed" type="application/atom+xml"/>
+<link href="http://kmarc-github-io.disqus.com/latest.rss" rel="alternate" title="Mark's space Comments RSS Feed" type="application/rss+xml"/>
+<!-- CSS -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/w3.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/jqcloud.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://kmarc.github.io/theme/css/pygments-highlight-github.css" rel="stylesheet" type="text/css"/>
+<!-- Icon -->
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://kmarc.github.io/theme/js/jqcloud.min.js"></script>
+</meta></meta></meta></meta></head>
+<body>
+<div class="w3-row w3-card w3-white">
+<header id="header">
+<a href="https://kmarc.github.io" id="header-logo" title="Home">MK</a>
+<nav id="header-menu">
+<ul>
+<li><a href="https://kmarc.github.io/pages/about.html">About</a></li>
+<li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://kmarc.github.io/category/blog.html">blog</a></li>
+</ul>
+</nav>
+</header>
+</div>
+<br/><br/><br/>
+<article>
+<header class="w3-container col-main">
+<h1>IDE in the terminal: meet vim and tmux</h1>
+<div class="post-info">
+<div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+<span><time datetime="2020-06-20T00:00:00+02:00">Sat 20 June 2020</time> in <a href="https://kmarc.github.io/category/blog.html" title="All articles in category blog">blog</a></span>
+</div>
+<div>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/vim.html" title="All articles with Vim tag">#vim</a>
+</span>
+<span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+<a href="https://kmarc.github.io/tag/tmux.html" title="All articles with Tmux tag">#tmux</a>
+</span>
+</div>
+</div>
+</header>
+<br/>
+<div class="col-main w3-container">
+<section id="content">
+<p><a href="https://en.wikipedia.org/wiki/Integrated_development_environment">Integrated Development Environment</a>.  That is, an environment what integrates  helper tools to
+help  you  with  your development  activities.  Now  that  our  environment variables  <a href="2020-05-23-automated-environment-setup.html">are  set  up
+properly</a>, let's get comfortable with the terminal multiplexer <a href="https://github.com/tmux/tmux/wiki/Getting-Started" title="https://github.com/tmux/tmux/wiki/Getting-Started">tmux</a> and the main part of
+a development environment: the editor, in our case: <a href="https://www.vim.org/" title="https://www.vim.org/">vim</a>.</p>
+<p>After reading this post, you will probably be  more comfortable with using the terminal to carry out
+the task of editing files and make sure they are at least syntax-checked before committing them into
+the version control system.</p>
+<h2>Using multiple terminal with tmux</h2>
+<p>A terminal multiplexer gives you the ability to use (and easily navigate) multiple virtual terminals
+within  the same  terminal  or terminal  emulator  window.  Like your  browser  tabs! An  additional
+advantage  of using  a  multiplexer  is that  the  multiplexed sessions  don't  exit  when your  SSH
+connection is terminated. That's why admins and devops people kinda like it.</p>
+<p><a href="https://www.gnu.org/software/screen/" title="https://www.gnu.org/software/screen/">Screen</a> is most  probably installed on your  linux distribution / servers, however,  it's kind of
+limited compared to what  tmux offers. Feel free to read through  the <a href="https://github.com/tmux/tmux/wiki/Getting-Started" title="https://github.com/tmux/tmux/wiki/Getting-Started">getting started guide</a>,
+however, for now, it's enough if you learn the basics.</p>
+<p>Install and then start it up by typing <code>tmux</code>! Create and navigate through tabs and splits. Whenever
+you create  a new  pane, your default  shell will  start up.  As you can  see, all  the tmux-related
+shortcuts have a <code>prefix</code>, <code>Ctrl</code>-<code>b</code>. After pressing it,  you type in the next letter and the magic
+happens.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Split current tab vertically</td>
+<td><code>Ctrl</code>-<code>b</code> <code>%</code></td>
+</tr>
+<tr>
+<td>Split current tab horizontally</td>
+<td><code>Ctrl</code>-<code>b</code> <code>"</code></td>
+</tr>
+<tr>
+<td>Switch to the pane left</td>
+<td><code>Ctrl</code>-<code>b</code> <code>←</code></td>
+</tr>
+<tr>
+<td>Switch to the pane below</td>
+<td><code>Ctrl</code>-<code>b</code> <code>↓</code></td>
+</tr>
+<tr>
+<td>Switch to the pane above</td>
+<td><code>Ctrl</code>-<code>b</code> <code>↑</code></td>
+</tr>
+<tr>
+<td>Switch to the pane right</td>
+<td><code>Ctrl</code>-<code>b</code> <code>→</code></td>
+</tr>
+<tr>
+<td>Create new tab</td>
+<td><code>Ctrl</code>-<code>b</code> <code>c</code></td>
+</tr>
+<tr>
+<td>Switch to the next tab</td>
+<td><code>Ctrl</code>-<code>b</code> <code>n</code></td>
+</tr>
+<tr>
+<td>Switch to the previous tab</td>
+<td><code>Ctrl</code>-<code>b</code> <code>p</code></td>
+</tr>
+<tr>
+<td>Show all shorcuts (help)</td>
+<td><code>Ctrl</code>-<code>b</code> <code>?</code></td>
+</tr>
+<tr>
+<td>Search help for the word "resize"</td>
+<td><code>/``resize</code></td>
+</tr>
+<tr>
+<td>Detach session</td>
+<td><code>Ctrl</code>-<code>b</code> <code>d</code></td>
+</tr>
+</tbody>
+</table>
+<p>Now check the help for how to resize a pane. Split your terminal horizontally (<code>prefix + "</code>), resize
+until it's comfortable (<code>prefix + C-↓ C-↓ C-↓ ‥</code>), switch to the pane above (<code>prefix + ↑</code>), start up
+vim, and...</p>
+<p><img alt="tmux and vim" class="image-process-article-image" src="https://kmarc.github.io/pictures/derivatives/article-image/tmux-ide.png"/></p>
+<p>Start to look like  and IDE isn't it? Well, there  is a lot more to do and  I won't show everything.
+However, at this  stage, you can comfortably  have a terminal environment running  on your jumphost,
+server, desktop/laptop. Play around and then read along!</p>
+<h2>Edit in vim and lint on the command line</h2>
+<p>Reading this blog post means you already know vim  somewhat. At least you can exit vim after editing
+a piece of text (<code>:q</code>). Now instead of <code>q</code>uitting, press <code>Tab</code> after the colon. Chances are that you
+are presented with a  lot of commands vim is capable  to offer you. And this is only  the tip of the
+iceberg.</p>
+<p>Make sure you have a  basic understanding of how vim is a modal editor,  where you mostly spend your
+time in  "Normal" mode  (to navigate and  edit files) and  rarely go  into "Insert" mode  (to insert
+text). <code>Esc</code> puts you back in normal mode, <code>i</code>  to insert mode, when you start typing a command with
+<code>:</code>, guess what, you are in command line mode. At any time you are lost, just press <code>Esc</code> a bunch of
+times (optimally you already  remapped the useless <code>Caps Lock</code> key to <code>Esc</code>).  A handy command would
+be <code>:help</code> so that whatever vim-related topic /  shortcut / command / setting you are interested in,
+you can quickly check it's documentation.</p>
+<p>Let's start with 'Hello World!' - Press <code>i</code> for insert mode, and mindlessly type in our hello world
+program:</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello World!"</span><span class="p">)</span>
+</pre></div>
+<p><code>Esc</code> back  into normal mode, and  save your work with  <code>:w hello.py</code>. Navigate to  your tmux bottom
+pane <code>prefix + ↓</code> and check if your program runs:</p>
+<div class="highlight"><pre><span></span>$ python hello.py
+<span class="c1"># Output:</span>
+<span class="c1">#   Hello World!</span>
+</pre></div>
+<p>For <em>linting</em> we are usually not interested in actually <em>running</em> our little program. What we can do
+is to invoke the compiler only:</p>
+<div class="highlight"><pre><span></span>$ python -m py_compile hello.py
+<span class="c1"># No output</span>
+</pre></div>
+<p>Now go back  to your vim in the  upper pane (<code>prefix + ↑</code>)  and add an erroneous line  in the python
+file. Press <code>G</code> to jump to the last line of  your file, press <code>o</code> to <code>o</code>pen a new like for insertion
+and type in an obvious syntax error. Something like this:</p>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello World!"</span><span class="p">)</span>
+  <span class="n">prin</span><span class="s2">"This should not pass"</span>
+</pre></div>
+<p>Go back to your shell below and observe the compiler's output:</p>
+<div class="highlight"><pre><span></span>$ python -m py_compile hello.py
+<span class="c1"># Output:</span>
+<span class="c1">#   Traceback (most recent call last):</span>
+<span class="c1">#     ...</span>
+<span class="c1">#     File "hello.py", line 3</span>
+<span class="c1">#       prin"This should not pass"</span>
+<span class="c1">#           ^</span>
+<span class="c1">#   SyntaxError: invalid syntax</span>
+<span class="c1">#     ...</span>
+</pre></div>
+<p>Now you can go back  to vim, hello.py, 3rd line, and fix your syntax. </p>
+<h2>Summary</h2>
+<p>Some of this looks cumbersome at a first glance; however, all you needed is available on the command
+line, and a week's worth  of muscle memory training you are going to  be faster than clicking around
+in other IDEs.</p>
+<p>This is <strong>NOT</strong> how I  do daily development though. Of course, both vim and tmux  can help you a bit
+here,  and enhancing  these tools  with  macros, plugins,  proper configuration,  the workflow  gets
+unbeatable.</p>
+<p>As a sneak peek, if you feel adventurous, read on!</p>
+<h2>Optional, advanced stuff: meet <code>:make</code> and the Quickfix list</h2>
+<blockquote>
+<p>Here be dragons!</p>
+</blockquote>
+<p>Vim has built-in "error consoles" to help you navigate syntax errors. The flow is the following:</p>
+<ol>
+<li>Edit and save your code / script / descriptor (<code>:w</code>)</li>
+<li>Run the compiler or linter (<code>:make</code>, that invokes <code>makeprg</code>)</li>
+<li>Observer and acknowledge the compiler output and return to vim (Press <code>Enter</code>. Now vim parses the
+   output according to <code>errorformat</code>)</li>
+<li>Navigate your file by jumping to the lines with syntax errors (<code>:cfirst</code>)</li>
+</ol>
+<p>By  default, vim  can understand  and parse  gcc's  error format.  The python  compiler's output  is
+different, so, bear with me, we need to teach vim how to parse it.</p>
+<p>Now this will  sound scary, but let's  follow <a href="https://vim.fandom.com/wiki/Python_-_check_syntax_and_run_script">this article on fandom</a>  to quickly configure
+<code>errorformat</code> and <code>makeprg</code>. Don't worry if you don't understand much for now. You can always ask
+the built in <code>:help</code> if you want to dig deeper; here I only want to show you what vim is capable of.</p>
+<p>Set <code>makeprg</code> to  a python compiler. We need  to invoke <code>:set</code> to, well,  <strong>set</strong> some configuration
+variables. 🤫 If you are adventuorous, also try the <code>:nmap</code> command! </p>
+<div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">makeprg</span><span class="p">=</span>python\ <span class="p">-</span><span class="k">c</span>\ \"import\ py_compile<span class="p">,</span>sys;\ sys.stderr<span class="p">=</span>sys.stdout;\ py_compile.<span class="k">compile</span><span class="p">(</span><span class="k">r</span><span class="s1">'%'</span><span class="p">)</span>\"
+<span class="k">set</span> <span class="nb">efm</span><span class="p">=</span>%C\ %.%#<span class="p">,</span>%A\ \ File\ \"%<span class="k">f</span>\"\\<span class="p">,</span>\ line\ %<span class="k">l</span>%.%#<span class="p">,</span>%Z%[%^\ ]%\\@<span class="p">=</span>%<span class="k">m</span>
+
+<span class="c">" This is magic</span>
+nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> :<span class="p">!</span>python %<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</pre></div>
+<p>Ready? Jump to  the beginning of the  file (<code>gg</code>). Now type  in <code>:make</code> and press  enter. The python
+compiler runs, and vim shows you it's output, asking  you to press enter to continue. You might need
+to press enter again.</p>
+<p>Your cursor is on the erroneous line now. That's comfy!</p>
+<p>What happened  here is  that vim  populated it's  so-called Quickfix  list with  all the  errors the
+compiler emitted. You can easily navigate this list:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jump to the first error</td>
+<td><code>:cfirst</code></td>
+</tr>
+<tr>
+<td>Jump to the last error</td>
+<td><code>:clast</code></td>
+</tr>
+<tr>
+<td>Jump to the previous error</td>
+<td><code>:cfirst</code></td>
+</tr>
+<tr>
+<td>Jump to the next  error</td>
+<td><code>:cfirst</code></td>
+</tr>
+<tr>
+<td>Open the Quickfix list</td>
+<td><code>:copen</code></td>
+</tr>
+</tbody>
+</table>
+<p>Well, this  is much less cumbersome  than switching terminals  there and back, chcking  line numbers
+manually. Also, this is  already considered advanced vim features; so if you  made it down here, you
+are an advanced vim user! 😉 </p>
+</section>
+<br/><br/><br/>
+<footer>
+<div class="adjust-width">
+<div class="w3-light-grey w3-border" id="author-block">
+<div id="author-info">
+<a href=""><img alt="Avatar" onerror="this.src='theme/images/avatar.png'" src="https://s.gravatar.com/avatar/3a946793d2adc7d1dc9b8a2a749f1401?s=240" style="width: 60px; height: 60px;"/></a>
+<div style="margin-left: 20px; margin-top: 15px;">
+<a href=""><span class="w3-hover-text-dark-grey" id="author-name">Mark Korondi</span></a>
+<p id="author-story">Software developer. Traveler. Minimalist.</p>
+</div>
+</div>
+</div>
+</div>
+<br/><br/><br/>
+<p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+<div class="share" id="share">
+<a class="w3-btn w3-indigo" href="http://www.facebook.com/sharer.php?u=https%3A//kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html&amp;t=Mark%27s%20space%3A%20IDE%20in%20the%20terminal%3A%20meet%20vim%20and%20tmux" target="_blank">
+<i class="fa fa-facebook"></i> <span>Facebook</span>
+</a>
+<a class="w3-btn w3-blue" href="http://twitter.com/share?url=https%3A//kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html&amp;text=Mark%27s%20space%3A%20IDE%20in%20the%20terminal%3A%20meet%20vim%20and%20tmux" target="_blank">
+<i class="fa fa-twitter"></i> <span>Twitter</span>
+</a>
+<a class="w3-btn w3-red" href="https://www.reddit.com/submit?url=https%3A//kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html&amp;title=IDE%20in%20the%20terminal%3A%20meet%20vim%20and%20tmux" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+<i class="fa fa-reddit"></i> <span>Reddit</span>
+</a>
+</div>
+<br/><br/><br/>
+<div id="disqus_thread"></div>
+<script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            
+            var disqus_config = function () {
+              this.page.url = 'https://kmarc.github.io/posts/2020-06-20-ide-in-the-terminal.html';  // Replace PAGE_URL with your page's canonical URL variable
+              this.page.identifier = 'ide-in-the-terminal'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+              var d = document, s = d.createElement('script');
+              
+              s.src = 'https://kmarc-github-io.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+              
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<br/><br/><br/>
+</footer>
+</div>
+</article>
+<footer id="footer">
+<div class="w3-center w3-small w3-text-grey w3-padding-48" id="footer-copyright">
+<span>© 2020 Mark Korondi  | <a href="https://kmarc.github.io/feeds/all.atom.xml">Atom feed <i aria-hidden="true" class="fa fa-rss"></i></a></span>
+</div>
+</footer>
+</body>
+</html>
