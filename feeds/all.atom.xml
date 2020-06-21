@@ -7,7 +7,7 @@ a development environment: the editor, in our case: &lt;a href="https://www.vim.
 help  you  with  your development  activities.  Now  that  our  environment variables  &lt;a href="2020-05-23-automated-environment-setup.html"&gt;are  set  up
 properly&lt;/a&gt;, let's get comfortable with the terminal multiplexer &lt;a href="https://github.com/tmux/tmux/wiki/Getting-Started" title="https://github.com/tmux/tmux/wiki/Getting-Started"&gt;tmux&lt;/a&gt; and the main part of
 a development environment: the editor, in our case: &lt;a href="https://www.vim.org/" title="https://www.vim.org/"&gt;vim&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;After reading this post, you will probably be  more comfortable with using the terminal to carry out
+&lt;p&gt;After reading this post, you will probably be  more comfortable using the terminal to carry out
 the task of editing files and make sure they are at least syntax-checked before committing them into
 the version control system.&lt;/p&gt;
 &lt;h2&gt;Using multiple terminals with tmux&lt;/h2&gt;
@@ -84,7 +84,7 @@ happens.&lt;/p&gt;
 until it's comfortable (&lt;code&gt;prefix + C-↓ C-↓ C-↓ ‥&lt;/code&gt;), switch to the pane above (&lt;code&gt;prefix + ↑&lt;/code&gt;), start up
 vim, and...&lt;/p&gt;
 &lt;p&gt;&lt;img class="image-process-article-image" alt="tmux and vim" src="https://kmarc.github.io/pictures/tmux-ide.png"/&gt;&lt;/p&gt;
-&lt;p&gt;Starts to look like and  IDE isn't it? Well, there is a lot more to  do and I won't show everything.
+&lt;p&gt;Starts to look like an  IDE isn't it? Well, there is a lot more to  do and I won't show everything.
 However, at this  stage, you can comfortably  have a terminal environment running  on your jumphost,
 server, desktop/laptop. Play around and then read along!&lt;/p&gt;
 &lt;h2&gt;Edit in vim and lint on the command line&lt;/h2&gt;
@@ -98,7 +98,7 @@ text). &lt;code&gt;Esc&lt;/code&gt; puts you back in normal mode, &lt;code&gt;i&
 &lt;code&gt;:&lt;/code&gt;, guess what, you are in command line mode. At any time you are lost, just press &lt;code&gt;Esc&lt;/code&gt; a bunch of
 times (optimally you already  remapped the useless &lt;code&gt;Caps Lock&lt;/code&gt; key to &lt;code&gt;Esc&lt;/code&gt;).  A handy command would
 be &lt;code&gt;:help&lt;/code&gt; so that whatever vim-related topic /  shortcut / command / setting you are interested in,
-you can quickly check it's documentation.&lt;/p&gt;
+you can quickly check its documentation.&lt;/p&gt;
 &lt;p&gt;Let's start with 'Hello World!' - Press &lt;code&gt;i&lt;/code&gt; for insert mode, and mindlessly type in our hello world
 program:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -145,7 +145,7 @@ and type in an obvious syntax error. Something like this:&lt;/p&gt;
 
 &lt;p&gt;Now you can go back  to vim, hello.py, 3rd line, and fix your syntax. &lt;/p&gt;
 &lt;h2&gt;Summary&lt;/h2&gt;
-&lt;p&gt;Some of this looks cumbersome at a first glance; however, all you needed is available on the command
+&lt;p&gt;Some of these looks cumbersome at a first glance; however, all you needed is available on the command
 line, and a week's worth  of muscle memory training you are going to  be faster than clicking around
 in other IDEs.&lt;/p&gt;
 &lt;p&gt;This is &lt;strong&gt;NOT&lt;/strong&gt; how I  do daily development though. Of course, both vim and tmux  can help you a bit
@@ -168,7 +168,7 @@ unbeatable.&lt;/p&gt;
 different, so, bear with me, we need to teach vim how to parse it.&lt;/p&gt;
 &lt;p&gt;Now this will  sound scary, but let's  follow &lt;a href="https://vim.fandom.com/wiki/Python_-_check_syntax_and_run_script"&gt;this article on fandom&lt;/a&gt;  to quickly configure
 &lt;code&gt;errorformat&lt;/code&gt; and &lt;code&gt;makeprg&lt;/code&gt;. Don't worry if you don't understand much for now. You can always ask
-the built in &lt;code&gt;:help&lt;/code&gt; if you want to dig deeper; here I only want to show you what vim is capable of.&lt;/p&gt;
+the built-in &lt;code&gt;:help&lt;/code&gt; if you want to dig deeper; here I only want to show you what vim is capable of.&lt;/p&gt;
 &lt;p&gt;Set &lt;code&gt;makeprg&lt;/code&gt; to  a python compiler. We need  to invoke &lt;code&gt;:set&lt;/code&gt; to, well,  &lt;strong&gt;set&lt;/strong&gt; some configuration
 variables. 🤫 If you are adventuorous, also try the &lt;code&gt;:nmap&lt;/code&gt; command! &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;makeprg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;python\ &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;\ \&amp;quot;import\ py_compile&lt;span class="p"&gt;,&lt;/span&gt;sys;\ sys.stderr&lt;span class="p"&gt;=&lt;/span&gt;sys.stdout;\ py_compile.&lt;span class="k"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;\&amp;quot;

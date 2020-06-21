@@ -73,7 +73,7 @@
 help  you  with  your development  activities.  Now  that  our  environment variables  <a href="2020-05-23-automated-environment-setup.html">are  set  up
 properly</a>, let's get comfortable with the terminal multiplexer <a href="https://github.com/tmux/tmux/wiki/Getting-Started" title="https://github.com/tmux/tmux/wiki/Getting-Started">tmux</a> and the main part of
 a development environment: the editor, in our case: <a href="https://www.vim.org/" title="https://www.vim.org/">vim</a>.</p>
-<p>After reading this post, you will probably be  more comfortable with using the terminal to carry out
+<p>After reading this post, you will probably be  more comfortable using the terminal to carry out
 the task of editing files and make sure they are at least syntax-checked before committing them into
 the version control system.</p>
 <h2>Using multiple terminals with tmux</h2>
@@ -150,7 +150,7 @@ happens.</p>
 until it's comfortable (<code>prefix + C-↓ C-↓ C-↓ ‥</code>), switch to the pane above (<code>prefix + ↑</code>), start up
 vim, and...</p>
 <p><img alt="tmux and vim" class="image-process-article-image" src="https://kmarc.github.io/pictures/derivatives/article-image/tmux-ide.png"/></p>
-<p>Starts to look like and  IDE isn't it? Well, there is a lot more to  do and I won't show everything.
+<p>Starts to look like an  IDE isn't it? Well, there is a lot more to  do and I won't show everything.
 However, at this  stage, you can comfortably  have a terminal environment running  on your jumphost,
 server, desktop/laptop. Play around and then read along!</p>
 <h2>Edit in vim and lint on the command line</h2>
@@ -164,7 +164,7 @@ text). <code>Esc</code> puts you back in normal mode, <code>i</code>  to insert 
 <code>:</code>, guess what, you are in command line mode. At any time you are lost, just press <code>Esc</code> a bunch of
 times (optimally you already  remapped the useless <code>Caps Lock</code> key to <code>Esc</code>).  A handy command would
 be <code>:help</code> so that whatever vim-related topic /  shortcut / command / setting you are interested in,
-you can quickly check it's documentation.</p>
+you can quickly check its documentation.</p>
 <p>Let's start with 'Hello World!' - Press <code>i</code> for insert mode, and mindlessly type in our hello world
 program:</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
@@ -201,7 +201,7 @@ and type in an obvious syntax error. Something like this:</p>
 </pre></div>
 <p>Now you can go back  to vim, hello.py, 3rd line, and fix your syntax. </p>
 <h2>Summary</h2>
-<p>Some of this looks cumbersome at a first glance; however, all you needed is available on the command
+<p>Some of these looks cumbersome at a first glance; however, all you needed is available on the command
 line, and a week's worth  of muscle memory training you are going to  be faster than clicking around
 in other IDEs.</p>
 <p>This is <strong>NOT</strong> how I  do daily development though. Of course, both vim and tmux  can help you a bit
@@ -224,7 +224,7 @@ unbeatable.</p>
 different, so, bear with me, we need to teach vim how to parse it.</p>
 <p>Now this will  sound scary, but let's  follow <a href="https://vim.fandom.com/wiki/Python_-_check_syntax_and_run_script">this article on fandom</a>  to quickly configure
 <code>errorformat</code> and <code>makeprg</code>. Don't worry if you don't understand much for now. You can always ask
-the built in <code>:help</code> if you want to dig deeper; here I only want to show you what vim is capable of.</p>
+the built-in <code>:help</code> if you want to dig deeper; here I only want to show you what vim is capable of.</p>
 <p>Set <code>makeprg</code> to  a python compiler. We need  to invoke <code>:set</code> to, well,  <strong>set</strong> some configuration
 variables. 🤫 If you are adventuorous, also try the <code>:nmap</code> command! </p>
 <div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">makeprg</span><span class="p">=</span>python\ <span class="p">-</span><span class="k">c</span>\ \"import\ py_compile<span class="p">,</span>sys;\ sys.stderr<span class="p">=</span>sys.stdout;\ py_compile.<span class="k">compile</span><span class="p">(</span><span class="k">r</span><span class="s1">'%'</span><span class="p">)</span>\"
